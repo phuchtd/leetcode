@@ -1,18 +1,47 @@
 package org.example.easy;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RomanToInt {
     public static void main(String[] args) {
-        int case1 = romanToInt("III");
-        System.out.println("III: " + case1);
+        System.out.println(romanToInt("III"));   // Output: 3
+        System.out.println(romanToInt("IV"));    // Output: 4
+        System.out.println(romanToInt("IX"));    // Output: 9
+        System.out.println(romanToInt("LVIII")); // Output: 58
+        System.out.println(romanToInt("MCMXCIV")); // Output: 1994
 
-        int case2 = romanToInt("LVIII");
-        System.out.println("LVIII:" + case2);
+        System.out.println(romanToInt_useHashMap("III"));   // Output: 3
+        System.out.println(romanToInt_useHashMap("IV"));    // Output: 4
+        System.out.println(romanToInt_useHashMap("IX"));    // Output: 9
+        System.out.println(romanToInt_useHashMap("LVIII")); // Output: 58
+        System.out.println(romanToInt_useHashMap("MCMXCIV")); // Output: 1994
+    }
 
-        int case3 = romanToInt("MCMXCIV");
-        System.out.println("MCMXCIV: " + case3);
+    public static int romanToInt_useHashMap(String s) {
+        Map<Character, Integer> romanToValue = new HashMap<>();
+        romanToValue.put('I', 1);
+        romanToValue.put('V', 5);
+        romanToValue.put('X', 10);
+        romanToValue.put('L', 50);
+        romanToValue.put('C', 100);
+        romanToValue.put('D', 500);
+        romanToValue.put('M', 1000);
+
+        int total = 0;
+        int i = 0;
+        while (i < s.length()) {
+            int currentValue = romanToValue.get(s.charAt(i));
+            if (i + 1 < s.length() && romanToValue.get(s.charAt(i+1)) > currentValue) {
+                total -= currentValue;
+            } else {
+                total += currentValue;
+            }
+            i++;
+        }
+        return total;
     }
 
     public static int romanToInt(String s) {
